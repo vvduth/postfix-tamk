@@ -8,6 +8,10 @@
 #include<math.h>
 #include <cstring>
 #include <string>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <cmath>
 using namespace std;
 
 
@@ -35,19 +39,31 @@ Post: The program has executed simple arithmetic
 Uses: The class Stack and the functions
       introduction, instructions, do_command, and get_command.
 */
-int main()
+int main(int argc,char* argv[])
 {
-    Stack stored_numbers;
+    if (argc == 1 ) {
 
-    char c = '5';
-    int a = 0;
-    a = a * 10;
-    a += (c - '0');
-    cout << a << endl;
+    
+    Stack stored_numbers;
     introduction();
     instructions();
-    while (do_command(get_command(), stored_numbers))
-        ;
+    while (do_command(get_command(), stored_numbers));
+
+    }
+
+    else if (argv[1][0] == '-' && argv[1][1] == 'p')
+    {
+        string expression_test;
+        cout << "Enter the whole expression: "; 
+        //cin.ignore();   
+        getline(cin, expression_test);
+        
+        cout << expression_test << endl ;
+        int n = expression_test.length();
+        char expression[50];
+        strcpy(expression, expression_test.c_str());
+        cout << "The result is " << evalPostfix(expression_test) <<endl;
+    }
 }
 
 char get_command()
@@ -172,7 +188,7 @@ void instructions()
         << "[x] exchanges the last two stack entries (for 1.1.2)\n"
         << "[s] sums all stack entries (for 1.1.3)\n"
         << "[a] calculates average of all stack entries (for 1.1.4)\n"
-        << "[r] enter the whole expression (for 1.1.5) \n"
+        << "[r] or run ./Calulate.exe -p to enter the whole expression (for 1.1.5) \n"
         << "[+] [-] [*] [/]   are arithmetic operations\n"
         << "[Q]uit.\n";
 }
@@ -329,13 +345,13 @@ double evalPostfix(std::string const& input)
         if (!(ss >> std::skipws >> op))
             break;
 
-        if (op != '+' && op != '-' && op != '*' && op != '/') {
+        if (op != '+' && op != '-' && op != '*' && op != '/' && op != '^') {
             std::cerr << '\'' << op << "' is not a valid operator!\n\n";
             return std::numeric_limits<double>::quiet_NaN();
         }
 
         if (values.size() < 2) {
-            std::cerr << "Not enough values!\n\n";
+            std::cerr << "Not enough values!\n\n" << values.size();
             return std::numeric_limits<double>::quiet_NaN();
         }
 
