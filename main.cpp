@@ -310,7 +310,7 @@ double eval(double lhs, double rhs, char op)
         if (rhs != 0)
             return lhs / rhs;
     case '^': return int_pow(lhs, rhs);
-    
+    case '%': return fmod(lhs, rhs);
         
         
     } 
@@ -345,7 +345,7 @@ double evalPostfix(std::string const& input)
         if (!(ss >> std::skipws >> op))
             break;
 
-        if (op != '+' && op != '-' && op != '*' && op != '/' && op != '^') {
+        if (op != '+' && op != '-' && op != '*' && op != '/' && op != '^' && op != '%') {
             std::cerr << '\'' << op << "' is not a valid operator!\n\n";
             return std::numeric_limits<double>::quiet_NaN();
         }
